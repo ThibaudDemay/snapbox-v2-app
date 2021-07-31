@@ -2,7 +2,7 @@ import SnapboxService from "@/services/snapbox.service";
 
 const state = {
   config: {},
-  pictures: [],
+  pictures: [] as any,
 };
 
 const getters = {};

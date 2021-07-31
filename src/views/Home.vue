@@ -38,6 +38,7 @@ export default defineComponent({
     function launchSnap(): void {
       if (store.state.snapbox.config.camera_state === true) {
         router.push({ name: "CountdownView" });
+        store.state.websocket.send("Hello There !");
       }
     }
 
