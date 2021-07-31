@@ -14,7 +14,7 @@ export interface RootState {
   websocket: any;
 }
 
-export default createStore({
+export default createStore<RootState>({
   state: {
     socket: {
       // Connection Status

@@ -11,4 +11,5 @@ createApp(App)
   .use(router)
   .use(VueNativeSock, "ws://127.0.0.1:12700/ws/server", {
     store: store,
-  }).mount("#app");
+  })
+  .mount("#app");
