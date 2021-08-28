@@ -1,4 +1,8 @@
-import axios, { AxiosInstance } from "axios";
+import {
+  SnapboxConfigState,
+  SnapboxPictureState,
+} from "@/store/modules/snapbox";
+import axios, { AxiosInstance, AxiosPromise } from "axios";
 
 class SnapboxService {
   axios: AxiosInstance;
@@ -12,19 +16,19 @@ class SnapboxService {
     });
   }
 
-  takeSnap() {
+  takeSnap(): AxiosPromise<SnapboxPictureState> {
     return this.axios.get("/snap");
   }
 
-  getConfig() {
+  getConfig(): AxiosPromise<SnapboxConfigState> {
     return this.axios.get("/config");
   }
 
-  getPictures() {
+  getPictures(): AxiosPromise<Array<SnapboxPictureState>> {
     return this.axios.get("/pictures");
   }
 
-  getPicture(id: string | string[]) {
+  getPicture(id: string | string[]): AxiosPromise<SnapboxPictureState> {
     return this.axios.get(`/pictures/${id}`);
   }
 }
