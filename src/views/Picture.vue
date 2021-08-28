@@ -1,16 +1,20 @@
 <template>
-  <div class="picture-view">
-    <router-link to="/" class="return bg-elem-interact" tag="div">
-      <img src="@/assets/back-arrow.png" />
-    </router-link>
-    <div class="timer">
-      {{ timer }}
+  <div class="picture-view layout vertical">
+    <div class="menu">
+      <router-link to="/" class="return bg-elem-interact" tag="div">
+        <img src="@/assets/back-arrow.png" />
+      </router-link>
+      <div class="timer">
+        {{ timer }}
+      </div>
     </div>
-    <div class="picture-div" v-if="picture">
-      <img
-        class="picture"
-        :src="'http://127.0.0.1:12700/assets/' + picture.id"
-      />
+    <div class="main">
+      <div class="picture-div" v-if="picture">
+        <img
+          class="picture"
+          :src="'http://127.0.0.1:12700/assets/' + picture.id"
+        />
+      </div>
     </div>
   </div>
 </template>

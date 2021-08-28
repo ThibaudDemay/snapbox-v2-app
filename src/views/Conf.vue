@@ -1,6 +1,6 @@
 <template>
-  <div class="conf-view">
-    <div class="top">
+  <div class="conf-view layout horizontal">
+    <div class="menu">
       <router-link to="/" class="return bg-elem-interact" tag="div">
         <img src="@/assets/back-arrow.png" />
       </router-link>
@@ -36,7 +36,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .conf-view {
   @apply h-full w-full;
-  .top {
+  .menu {
     height: 165px;
     @apply box-border flex justify-between p-5 w-full;
     // height: 12.75%;

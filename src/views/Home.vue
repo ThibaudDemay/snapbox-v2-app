@@ -1,6 +1,6 @@
 <template>
-  <div class="home-view">
-    <div class="top">
+  <div class="home-view layout horizontal">
+    <div class="menu">
       <router-link to="/conf" class="settings bg-elem-interact" tag="div">
         <img src="@/assets/settings-gears.png" />
       </router-link>
@@ -13,7 +13,7 @@
       <div class="capture bg-elem-interact" v-on:click="launchSnap()">
         <img src="@/assets/photo-camera.png" />
         <span v-if="camera_state">Take a pics</span>
-        <span class="no-cam" v-else>No Camera connected</span>
+        <span v-else class="no-cam">No Camera connected</span>
       </div>
     </div>
   </div>
@@ -29,20 +29,17 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const pics_count = computed(() => store.state.snapbox.config.pics_count);
-    const camera_state = computed(
-      () => store.state.snapbox.config.camera_state
-    );
+    const camera_state = computed(() => store.state.camera.is_connected);
 
     store.dispatch("snapbox/getAllConfig");
 
     function launchSnap(): void {
-      if (store.state.snapbox.config.camera_state === true) {
+      if (store.state.camera.is_connected === true) {
         router.push({ name: "CountdownView" });
-        store.state.websocket.send("Hello There !");
       }
     }
 
-    return { store, pics_count, camera_state, launchSnap };
+    return { pics_count, camera_state, launchSnap };
   },
 });
 </script>
@@ -50,7 +47,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .home-view {
   @apply h-full w-full;
-  .top {
+  .menu {
     height: 165px;
     @apply box-border flex justify-between p-5 w-full;
     // height: 12.75%;

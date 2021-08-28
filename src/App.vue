@@ -44,4 +44,28 @@ body {
     background-color: #009996;
   }
 }
+
+.layout {
+  @apply flex;
+
+  .menu {
+    @apply flex justify-between;
+  }
+
+  &.vertical {
+    @apply flex-row;
+
+    .menu {
+      @apply flex-col;
+    }
+  }
+
+  &.horizontal {
+    @apply flex-col;
+
+    .menu {
+      @apply flex-row;
+    }
+  }
+}
 </style>
