@@ -1,9 +1,12 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import HomeView from "@/views/Home.vue";
-import CountdownView from "@/views/Countdown.vue";
-import SnapView from "@/views/Snap.vue";
-import PictureView from "@/views/Picture.vue";
-import ConfView from "@/views/Conf.vue";
+import UploadView from "@/views/Upload.vue";
+import FluxView from "@/views/Flux.vue";
+import ConfigView from "@/views/Config.vue";
+import HomeAppView from "@/views/app/HomeApp.vue";
+import CountdownView from "@/views/app/Countdown.vue";
+import SnapView from "@/views/app/Snap.vue";
+import PictureView from "@/views/app/Picture.vue";
+import ConfView from "@/views/app/Conf.vue";
 
 // route level code-splitting
 // this generates a separate chunk (about.[hash].js) for this route
@@ -14,27 +17,49 @@ import ConfView from "@/views/Conf.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "HomeView",
-    component: HomeView,
+    alias: ["/upload"],
+    name: "UploadView",
+    component: UploadView,
   },
   {
-    path: "/countdown",
+    path: "/flux",
+    name: "FluxView",
+    component: FluxView,
+  },
+  {
+    path: "/config",
+    name: "ConfigView",
+    component: ConfigView,
+  },
+  {
+    path: "/app",
+    alias: ["/app/home"],
+    name: "HomeAppView",
+    meta: { layout: "app" },
+    component: HomeAppView,
+  },
+  {
+    path: "/app/countdown",
     name: "CountdownView",
+    meta: { layout: "app" },
     component: CountdownView,
   },
   {
-    path: "/snap",
+    path: "/app/snap",
     name: "SnapView",
+    meta: { layout: "app" },
     component: SnapView,
   },
   {
-    path: "/picture/:id",
+    path: "/app/picture/:id",
     name: "PictureView",
+    meta: { layout: "app" },
     component: PictureView,
   },
   {
-    path: "/conf",
+    path: "/app/conf",
     name: "ConfView",
+    meta: { layout: "app" },
     component: ConfView,
   },
 ];

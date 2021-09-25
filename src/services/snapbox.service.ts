@@ -9,7 +9,7 @@ class SnapboxService {
 
   constructor() {
     this.axios = axios.create({
-      baseURL: "http://127.0.0.1:12700",
+      baseURL: "/api",
       headers: {
         "Content-type": "application/json",
       },
@@ -30,6 +30,15 @@ class SnapboxService {
 
   getPicture(id: string | string[]): AxiosPromise<SnapboxPictureState> {
     return this.axios.get(`/pictures/${id}`);
+  }
+
+  uploadPicture(
+    filename: string | string[],
+    data: Blob,
+    type: string
+  ): AxiosPromise<SnapboxPictureState> {
+    const options = { headers: { "Content-Type": type } };
+    return this.axios.post(`/upload/${filename}`, data, options);
   }
 }
 

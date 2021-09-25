@@ -27,7 +27,7 @@ export default defineComponent({
         .catch((error) => {
           console.log(error);
           router.push({
-            name: "HomeView",
+            name: "HomeAppView",
           });
         });
     });

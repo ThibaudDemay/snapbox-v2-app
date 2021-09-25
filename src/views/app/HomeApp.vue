@@ -1,7 +1,7 @@
 <template>
   <div class="home-view layout horizontal">
     <div class="menu">
-      <router-link to="/conf" class="settings bg-elem-interact" tag="div">
+      <router-link :to="{name: 'ConfView'}" class="settings bg-elem-interact" tag="div">
         <img src="@/assets/settings-gears.png" />
       </router-link>
       <div class="count bg-elem">
@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="main">
-      <div class="capture bg-elem-interact" v-on:click="launchSnap()">
+      <div class="capture bg-elem-interact" @click="launchSnap()">
         <img src="@/assets/photo-camera.png" />
         <span v-if="camera_state">Take a pics</span>
         <span v-else class="no-cam">No Camera connected</span>

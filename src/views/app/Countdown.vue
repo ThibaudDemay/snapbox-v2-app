@@ -1,7 +1,7 @@
 <template>
   <div class="countdown-view layout vertical">
     <div class="menu">
-      <router-link to="/" class="return bg-elem-interact" tag="div">
+      <router-link :to="{name: 'HomeAppView'}" class="return bg-elem-interact" tag="div">
         <img src="@/assets/back-arrow.png" />
       </router-link>
     </div>
@@ -45,7 +45,7 @@ export default defineComponent({
       }
     });
 
-    return { timerEnabled, timer };
+    return { timer };
   },
 });
 </script>
@@ -58,7 +58,6 @@ export default defineComponent({
     @apply box-border flex justify-between p-5 w-full;
     // height: 12.75%;
   }
-  
   .main {
     .timer {
       @apply text-7xl;

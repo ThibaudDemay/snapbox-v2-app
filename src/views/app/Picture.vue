@@ -1,7 +1,7 @@
 <template>
   <div class="picture-view layout vertical">
     <div class="menu">
-      <router-link to="/" class="return bg-elem-interact" tag="div">
+      <router-link :to="{name: 'HomeAppView'}" class="return bg-elem-interact" tag="div">
         <img src="@/assets/back-arrow.png" />
       </router-link>
       <div class="timer">
@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="main">
-      <div class="picture-div" v-if="picture">
+      <div v-if="picture" class="picture-div">
         <img
           class="picture"
           :src="'http://127.0.0.1:12700/assets/' + picture.id"
@@ -44,7 +44,7 @@ export default defineComponent({
         })
         .catch((error) => {
           console.log(error);
-          router.push({ name: "HomeView" });
+          router.push({ name: "HomeAppView" });
         });
     });
 
@@ -62,11 +62,11 @@ export default defineComponent({
           timer.value--;
         }, 1000);
       } else if (value == 0) {
-        router.push({ name: "HomeView" });
+        router.push({ name: "HomeAppView" });
       }
     });
 
-    return { store, picture, timerEnabled, timer };
+    return { store, picture, timer };
   },
 });
 </script>

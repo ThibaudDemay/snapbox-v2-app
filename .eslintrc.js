@@ -31,5 +31,21 @@ module.exports = {
         deepData: true,
       },
     ],
+    "vue/max-len": [
+      "warn",
+      {
+        code: 120, 
+        ignoreUrls: true,
+        ignoreTemplateLiterals: true
+      }
+    ],
+    "max-len": [
+      "warn",
+      {
+        code: 120, 
+        ignoreUrls: true,
+        ignoreTemplateLiterals: true
+      }
+    ],
   },
 };

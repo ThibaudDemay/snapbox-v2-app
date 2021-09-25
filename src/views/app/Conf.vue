@@ -1,7 +1,7 @@
 <template>
   <div class="conf-view layout horizontal">
     <div class="menu">
-      <router-link to="/" class="return bg-elem-interact" tag="div">
+      <router-link :to="{name: 'HomeAppView'}" class="return bg-elem-interact" tag="div">
         <img src="@/assets/back-arrow.png" />
       </router-link>
       <div class="things bg-elem">things</div>
@@ -28,7 +28,7 @@ export default defineComponent({
       store.dispatch("snapbox/getAllConfig");
     });
 
-    return { store, conf };
+    return { conf };
   },
 });
 </script>
