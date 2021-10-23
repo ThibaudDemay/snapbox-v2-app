@@ -22,19 +22,21 @@
 <script lang="ts">
 import router from "@/router";
 import { computed, defineComponent } from "vue";
-import { useStore } from "vuex";
+import { useSnapboxStore } from "@/store/modules/snapbox";
+import { useCameraStore } from "@/store/modules/camera";
 
 export default defineComponent({
   name: "HomeView",
   setup() {
-    const store = useStore();
-    const pics_count = computed(() => store.state.snapbox.config.pics_count);
-    const camera_state = computed(() => store.state.camera.is_connected);
+    const cameraStore = useCameraStore();
+    const snapboxStore = useSnapboxStore();
+    const pics_count = computed(() => snapboxStore.config.pics_count);
+    const camera_state = computed(() => cameraStore.is_connected);
 
-    store.dispatch("snapbox/getAllConfig");
+    snapboxStore.getAllConfig();
 
     function launchSnap(): void {
-      if (store.state.camera.is_connected === true) {
+      if (cameraStore.is_connected === true) {
         router.push({ name: "CountdownView" });
       }
     }

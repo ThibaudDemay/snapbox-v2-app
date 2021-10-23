@@ -1,4 +1,6 @@
 import { MutationTree } from "vuex";
+import { useCameraStore } from "./camera";
+import { SnapboxPictureState, useSnapboxStore } from "./snapbox";
 
 export interface SocketState {
   isConnected: boolean;
@@ -30,7 +32,8 @@ const mutations: MutationTree<SocketState> | any = {
     console.debug("socket_onopen", event, this);
     this.state.websocket = event.currentTarget;
     state.isConnected = true;
-    // When the connection is successful, start sending heartbeat messages regularly to avoid being disconnected by the server
+    // When the connection is successful
+    // start sending heartbeat messages regularly to avoid being disconnected by the server
     state.heartBeatTimer = window.setInterval(() => {
       const message = "Heartbeat message";
       state.isConnected &&
@@ -57,10 +60,16 @@ const mutations: MutationTree<SocketState> | any = {
   },
   // Receive the message sent by the server
   SOCKET_ONMESSAGE(state: SocketState, message: MessageEvent) {
+    const cameraStore = useCameraStore();
+    const snapboxStore = useSnapboxStore();
     state.message = message;
     const data = JSON.parse(message.data);
     if (data["event"] === "update" && data["type"] == "state") {
-      this.commit(data["mutation"], data["value"]);
+      if (data["mutation"] == "camera/setIsConnected") {
+        cameraStore.is_connected = data["value"];
+      } else if (data["mutation"] == "pictures/newPictures") {
+        snapboxStore.addPicture(data["value"] as SnapboxPictureState);
+      }
     }
   },
   // Auto reconnect

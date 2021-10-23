@@ -6,33 +6,16 @@
 </template>
 
 <script lang="ts">
-import router from "@/router";
-import SnapboxService from "@/services/snapbox.service";
+import { useSnapboxStore } from "@/store/modules/snapbox";
 import { defineComponent, onMounted } from "vue";
-import { useStore } from "vuex";
 
 export default defineComponent({
   name: "SnapView",
   setup() {
-    const store = useStore();
-
+    const snapboxStore = useSnapboxStore();
     onMounted(() => {
-      SnapboxService.takeSnap()
-        .then((response) => {
-          router.push({
-            name: "PictureView",
-            params: { id: response.data.id },
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-          router.push({
-            name: "HomeAppView",
-          });
-        });
+      snapboxStore.takeSnap();
     });
-
-    return { store };
   },
 });
 </script>

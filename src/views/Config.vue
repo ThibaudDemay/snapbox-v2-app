@@ -8,7 +8,6 @@
         <li class="header">Storage</li>
         <li v-if="conf.path">Storage Path : {{ conf.path.sto_path }}</li>
         <li v-if="conf.sto_usage">
-          <!-- Storage Usage: {{ conf.sto_usage.used }}/{{ conf.sto_usage.total }} ({{ conf.sto_usage.free }} free) -->
           Storage Usage: {{ prettyBytes(conf.sto_usage.used) }}/{{ prettyBytes(conf.sto_usage.total) }} ({{ prettyBytes(conf.sto_usage.free) }} free)
         </li>
         <li>Picture Count: {{ conf.pics_count }}</li>
@@ -20,16 +19,16 @@
 
 <script lang="ts">
 import { prettyBytes } from "@/mixins/filters/pretty_bytes";
+import { useSnapboxStore } from "@/store/modules/snapbox";
 import { defineComponent, computed } from "vue";
-import { useStore } from "vuex";
 
 export default defineComponent({
   name: "ConfigView",
   setup() {
-    const store = useStore();
-    const conf = computed(() => store.state.snapbox.config);
+    const snapboxStore = useSnapboxStore();
+    const conf = computed(() => snapboxStore.config);
 
-    store.dispatch("snapbox/getAllConfig");
+    snapboxStore.getAllConfig();
 
     return { conf, prettyBytes };
   },

@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, PropType } from "vue";
 import { SnapboxPictureState } from "@/store/modules/snapbox";
 
@@ -12,7 +12,7 @@ export default defineComponent({
   name: "Picture",
   props: {
     picture: {
-      type: Object, // as PropType<SnapboxPictureState>,
+      type: Object as PropType<SnapboxPictureState>,
       required: true,
     },
   },

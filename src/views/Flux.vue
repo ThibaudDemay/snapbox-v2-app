@@ -13,29 +13,18 @@
 
 <script lang="ts">
 import Picture from "@/components/Picture.vue";
-import SnapboxService from "@/services/snapbox.service";
+import { useSnapboxStore } from "@/store/modules/snapbox";
 
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, computed } from "vue";
 
 export default defineComponent({
   name: "SnapBox",
   components: { Picture },
   setup() {
-    const pictures = ref([]);
+    const snapboxStore = useSnapboxStore()
+    const pictures = computed(() => snapboxStore.pictures)
 
-    onMounted(() => {
-      refresh_data();
-    });
-
-    function refresh_data(): void {
-      SnapboxService.getPictures()
-        .then((res) => {
-          return res.data;
-        })
-        .then((data) => {
-          pictures.value = data;
-        });
-    }
+    snapboxStore.getAllPictures()
 
     return { pictures };
   },

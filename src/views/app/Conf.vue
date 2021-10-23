@@ -15,19 +15,15 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted } from "vue";
-import { useStore } from "vuex";
+import { useSnapboxStore } from "@/store/modules/snapbox";
+import { computed, defineComponent } from "vue";
 
 export default defineComponent({
   name: "ConfView",
   setup() {
-    const store = useStore();
-    const conf = computed(() => store.state.snapbox.config);
-
-    onMounted(() => {
-      store.dispatch("snapbox/getAllConfig");
-    });
-
+    const snapboxStore = useSnapboxStore();
+    const conf = computed(() => snapboxStore.config);
+    snapboxStore.getAllConfig();
     return { conf };
   },
 });

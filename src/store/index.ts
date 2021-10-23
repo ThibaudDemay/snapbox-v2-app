@@ -1,6 +1,5 @@
 import { createStore } from "vuex";
-import snapbox from "@/store/modules/snapbox";
-import camera from "@/store/modules/camera";
+
 import socket from "@/store/modules/socket";
 
 export interface RootState {
@@ -15,7 +14,5 @@ export default createStore<RootState>({
   actions: {},
   modules: {
     socket,
-    snapbox,
-    camera,
   },
 });

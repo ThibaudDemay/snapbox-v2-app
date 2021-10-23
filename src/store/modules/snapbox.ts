@@ -1,6 +1,6 @@
 import SnapboxService from "@/services/snapbox.service";
-import { ActionTree, MutationTree } from "vuex";
-import { RootState } from "@/store";
+import { defineStore } from "pinia";
+import { useRouter } from "vue-router";
 
 export interface SnapboxConfigPathState {
   sto_path: string;
@@ -36,50 +36,67 @@ export interface SnapboxPictureState {
 
 export interface SnapboxState {
   config: SnapboxConfigState;
+  picture: SnapboxPictureState | null;
   pictures: Array<SnapboxPictureState>;
 }
 
-const state = {
-  config: {},
-  pictures: Array<SnapboxPictureState>(),
-};
-
-const getters = {};
-
-const actions: ActionTree<SnapboxState, RootState> = {
-  getAllConfig(store): void {
-    SnapboxService.getConfig()
-      .then((result) => {
-        store.commit("setConfig", result.data);
-      })
-      .catch((error) => {
-        throw new Error(`API ${error}`);
-      });
+export const useSnapboxStore = defineStore("snapbox", {
+  state: (): SnapboxState => ({
+    config: {} as SnapboxConfigState,
+    picture: null,
+    pictures: [] as Array<SnapboxPictureState>,
+  }),
+  actions: {
+    getAllConfig(): void {
+      SnapboxService.getConfig()
+        .then((result) => {
+          this.config = result.data as SnapboxConfigState;
+        })
+        .catch((error) => {
+          throw new Error(`API ${error}`);
+        });
+    },
+    getAllPictures(): void {
+      SnapboxService.getPictures()
+        .then((result) => {
+          this.pictures = result.data as Array<SnapboxPictureState>;
+        })
+        .catch((error) => {
+          throw new Error(`API ${error}`);
+        });
+    },
+    getPicture(id: string | string[]): void {
+      const router = useRouter();
+      SnapboxService.getPicture(id)
+        .then((response) => {
+          this.picture = response.data as SnapboxPictureState;
+        })
+        .catch((error) => {
+          console.log(error);
+          router.push({ name: "HomeAppView" });
+        });
+    },
+    cleanPicture(): void {
+      this.picture = null;
+    },
+    addPicture(picture: SnapboxPictureState): void {
+      this.pictures.unshift(picture);
+    },
+    takeSnap(): void {
+      const router = useRouter();
+      SnapboxService.takeSnap()
+        .then((response) => {
+          router.push({
+            name: "PictureView",
+            params: { id: response.data.id },
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          router.push({
+            name: "HomeAppView",
+          });
+        });
+    },
   },
-  getAllPictures(store): void {
-    SnapboxService.getPictures()
-      .then((result) => {
-        store.commit("setPictures", result.data);
-      })
-      .catch((error) => {
-        throw new Error(`API ${error}`);
-      });
-  },
-};
-
-const mutations: MutationTree<SnapboxState> = {
-  setConfig(state, config: SnapboxConfigState): void {
-    state.config = config;
-  },
-  setPictures(state, pictures: []): void {
-    state.pictures = pictures;
-  },
-};
-
-export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations,
-};
+});

@@ -21,31 +21,27 @@
 
 <script lang="ts">
 import router from "@/router";
-import SnapboxService from "@/services/snapbox.service";
-import { onMounted, defineComponent, watch, ref } from "vue";
+import { useSnapboxStore } from "@/store/modules/snapbox";
+import { onMounted, onUnmounted, defineComponent, watch, ref, computed } from "vue";
 import { useRoute } from "vue-router";
-import { useStore } from "vuex";
 
 export default defineComponent({
   name: "PictureView",
   setup() {
-    const store = useStore();
     const route = useRoute();
-    const picture = ref(null);
+    const snapboxStore = useSnapboxStore();
+    const picture = computed(() => snapboxStore.picture);
     const timerEnabled = ref(false);
     const timer = ref(10);
 
+    snapboxStore.getPicture(route.params.id);
+
     onMounted(() => {
-      // store.dispatch("snapbox/getPicture"); // add id of picture
-      SnapboxService.getPicture(route.params.id)
-        .then((response) => {
-          picture.value = response.data;
-          timerEnabled.value = true;
-        })
-        .catch((error) => {
-          console.log(error);
-          router.push({ name: "HomeAppView" });
-        });
+      timerEnabled.value = true;
+    });
+
+    onUnmounted(() => {
+      snapboxStore.cleanPicture();
     });
 
     watch(timerEnabled, (value) => {
@@ -66,7 +62,7 @@ export default defineComponent({
       }
     });
 
-    return { store, picture, timer };
+    return { picture, timer };
   },
 });
 </script>
