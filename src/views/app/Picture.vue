@@ -9,11 +9,12 @@
       </div>
     </div>
     <div class="main">
-      <div v-if="picture" class="picture-div">
-        <img
+      <div class="picture-div">
+        <img v-if="picture"
           class="picture"
           :src="'http://127.0.0.1:12700/assets/' + picture.id"
         />
+        <img v-if="!picture" class="picture" src="@/assets/default_photo.png" />
       </div>
     </div>
   </div>
