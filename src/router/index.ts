@@ -7,6 +7,7 @@ import CountdownView from "@/views/app/Countdown.vue";
 import SnapView from "@/views/app/Snap.vue";
 import PictureView from "@/views/app/Picture.vue";
 import ConfView from "@/views/app/Conf.vue";
+import LoginVue from "@/views/Login.vue";
 
 // route level code-splitting
 // this generates a separate chunk (about.[hash].js) for this route
@@ -30,6 +31,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/config",
     name: "ConfigView",
     component: ConfigView,
+  },
+  {
+    path: "/login",
+    name: "LoginView",
+    component: LoginVue,
   },
   {
     path: "/app",

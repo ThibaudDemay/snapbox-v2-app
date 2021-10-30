@@ -2,6 +2,7 @@ import {
   SnapboxConfigState,
   SnapboxPictureState,
 } from "@/store/modules/snapbox";
+import { TokenState } from "@/store/modules/user";
 import axios, { AxiosInstance, AxiosPromise } from "axios";
 
 class SnapboxService {
@@ -39,6 +40,11 @@ class SnapboxService {
   ): AxiosPromise<SnapboxPictureState> {
     const options = { headers: { "Content-Type": type } };
     return this.axios.post(`/upload/${filename}`, data, options);
+  }
+
+  loginUser(username: string, password: string): AxiosPromise<TokenState> {
+    const data = { "username": username, "password": password };
+    return this.axios.post('/auth/login', data);
   }
 }
 
