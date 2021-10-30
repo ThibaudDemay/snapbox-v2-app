@@ -66,7 +66,7 @@ const mutations: MutationTree<SocketState> | any = {
     const data = JSON.parse(message.data);
     if (data["event"] === "update" && data["type"] == "state") {
       if (data["mutation"] == "camera/setIsConnected") {
-        cameraStore.is_connected = data["value"];
+        cameraStore.isConnected = data["value"];
       } else if (data["mutation"] == "pictures/newPictures") {
         snapboxStore.addPicture(data["value"] as SnapboxPictureState);
       }

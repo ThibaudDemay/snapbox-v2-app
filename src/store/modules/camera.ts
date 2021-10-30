@@ -1,11 +1,11 @@
 import { defineStore } from "pinia";
 
 export interface CameraState {
-  is_connected: boolean;
+  isConnected: boolean;
 }
 
 export const useCameraStore = defineStore("camera", {
   state: (): CameraState => ({
-    is_connected: false,
+    isConnected: false,
   }),
 });

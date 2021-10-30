@@ -5,14 +5,14 @@
         <img src="@/assets/settings-gears.png" />
       </router-link>
       <div class="count bg-elem">
-        <span>{{ pics_count }}</span>
+        <span>{{ picsCount }}</span>
         <img src="@/assets/picture.png" />
       </div>
     </div>
     <div class="main">
       <div class="capture bg-elem-interact" @click="launchSnap()">
         <img src="@/assets/photo-camera.png" />
-        <span v-if="camera_state">Take a pics</span>
+        <span v-if="cameraState">Take a pics</span>
         <span v-else class="no-cam">No Camera connected</span>
       </div>
     </div>
@@ -30,18 +30,18 @@ export default defineComponent({
   setup() {
     const cameraStore = useCameraStore();
     const snapboxStore = useSnapboxStore();
-    const pics_count = computed(() => snapboxStore.config.pics_count);
-    const camera_state = computed(() => cameraStore.is_connected);
+    const picsCount = computed(() => snapboxStore.config.pics_count);
+    const cameraState = computed(() => cameraStore.isConnected);
 
     snapboxStore.getAllConfig();
 
     function launchSnap(): void {
-      if (cameraStore.is_connected === true) {
+      if (cameraStore.isConnected === true) {
         router.push({ name: "CountdownView" });
       }
     }
 
-    return { pics_count, camera_state, launchSnap };
+    return { picsCount, cameraState, launchSnap };
   },
 });
 </script>

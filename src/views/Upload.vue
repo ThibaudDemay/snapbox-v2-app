@@ -23,7 +23,7 @@
           <div class="left">
             <div icon="fa-chair"></div>&nbsp; Table
           </div>
-          <select v-model="selectedTable" class="select" @change="onTableChange">
+          <select v-model="selectedTable" class="select">
             <option v-for="table in tables" :key="table.value" :value="table.value">
               {{ table.text }}
             </option>
@@ -57,7 +57,7 @@
 import data from "@/data";
 import SnapboxService from "@/services/snapbox.service";
 import pathParse from "path-parse";
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, watch } from "vue";
 import default_picture from "@/assets/picture.png";
 
 export default defineComponent({
@@ -69,7 +69,7 @@ export default defineComponent({
     const picture = ref(null);
     const selectedTable = ref("honneur");
     const tables = data.tables;
-    const names = data.names.honneur;
+    const names = ref(data.names.honneur);
     const selectedName = ref(data.names.honneur[1].value);
     const imagePath = ref(default_picture);
 
@@ -107,15 +107,15 @@ export default defineComponent({
       isSaving.value = false;
     }
 
+    watch(selectedTable, (value: string) => {
+      const newNames = data.names[value];
+      names.value = newNames;
+      selectedName.value = newNames[0].value;
+    })
+
     function onFileChange(event: any): void {
       picture.value = event.target.files[0] || event.dataTransfer.files[0];
       imagePath.value = URL.createObjectURL(picture.value);
-    }
-
-    function onTableChange(): void {
-      console.log(selectedTable.value);
-      // names.values = data.names[selectedTable.value];
-      // selectedName.value = data.names[selectedTable.value][1].value;
     }
 
     function checkFormValid(): void {
@@ -127,7 +127,6 @@ export default defineComponent({
     return {
       onSave,
       onFileChange,
-      onTableChange,
       checkFormValid,
       isSaving,
       imagePath,

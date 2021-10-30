@@ -21,10 +21,10 @@ export default defineComponent({
   name: "SnapBox",
   components: { Picture },
   setup() {
-    const snapboxStore = useSnapboxStore()
-    const pictures = computed(() => snapboxStore.pictures)
+    const snapboxStore = useSnapboxStore();
+    const pictures = computed(() => snapboxStore.pictures);
 
-    snapboxStore.getAllPictures()
+    snapboxStore.getAllPictures();
 
     return { pictures };
   },
