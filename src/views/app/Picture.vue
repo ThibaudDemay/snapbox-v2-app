@@ -5,12 +5,13 @@
         <img src="@/assets/back-arrow.png" />
       </router-link>
       <div class="timer">
-        {{ timer }}
+        {{ timer.time }}
       </div>
     </div>
     <div class="main">
       <div class="picture-div">
-        <img v-if="picture"
+        <img
+          v-if="picture"
           class="picture"
           :src="'http://127.0.0.1:12700/assets/' + picture.id"
         />
@@ -21,46 +22,23 @@
 </template>
 
 <script lang="ts">
-import router from "@/router";
 import { useSnapboxStore } from "@/store/modules/snapbox";
-import { onMounted, onUnmounted, defineComponent, watch, ref, computed } from "vue";
+import { onUnmounted, defineComponent, computed } from "vue";
 import { useRoute } from "vue-router";
+import { useTimer } from "@/use/timer";
 
 export default defineComponent({
   name: "PictureView",
   setup() {
     const route = useRoute();
     const snapboxStore = useSnapboxStore();
+    const timer = useTimer("HomeAppView");
     const picture = computed(() => snapboxStore.picture);
-    const timerEnabled = ref(false);
-    const timer = ref(10);
 
     snapboxStore.getPicture(route.params.id);
 
-    onMounted(() => {
-      timerEnabled.value = true;
-    });
-
     onUnmounted(() => {
       snapboxStore.cleanPicture();
-    });
-
-    watch(timerEnabled, (value) => {
-      if (value) {
-        setTimeout(() => {
-          timer.value--;
-        }, 1000);
-      }
-    });
-
-    watch(timer, (value) => {
-      if (value > 0 && timerEnabled.value) {
-        setTimeout(() => {
-          timer.value--;
-        }, 1000);
-      } else if (value == 0) {
-        router.push({ name: "HomeAppView" });
-      }
     });
 
     return { picture, timer };

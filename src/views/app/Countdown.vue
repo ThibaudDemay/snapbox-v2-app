@@ -7,44 +7,20 @@
     </div>
     <div class="main">
       <div class="timer">
-        {{ timer }}
+        {{ timer.time }}
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import router from "@/router";
-import { defineComponent, onMounted, ref, watch } from "vue";
+import { useTimer } from "@/use/timer";
+import { defineComponent} from "vue";
 
 export default defineComponent({
   name: "CountdownView",
   setup() {
-    const timerEnabled = ref(false);
-    const timer = ref(10);
-
-    onMounted(() => {
-      timerEnabled.value = true;
-    });
-
-    watch(timerEnabled, (value) => {
-      if (value) {
-        setTimeout(() => {
-          timer.value--;
-        }, 1000);
-      }
-    });
-
-    watch(timer, (value) => {
-      if (value > 0 && timerEnabled.value) {
-        setTimeout(() => {
-          timer.value--;
-        }, 1000);
-      } else if (value == 0) {
-        router.push({ name: "SnapView" });
-      }
-    });
-
+    const timer = useTimer("SnapView");
     return { timer };
   },
 });
