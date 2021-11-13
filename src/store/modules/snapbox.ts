@@ -1,3 +1,4 @@
+import { useUserStore } from './user';
 import SnapboxService from "@/services/snapbox.service";
 import { defineStore } from "pinia";
 import { useRouter } from "vue-router";
@@ -22,6 +23,13 @@ export interface SnapboxConfigState {
   exts_count: number;
   camera_state: boolean;
   camera_model: string;
+  countdown: number;
+  countdown_min: number;
+  countdown_max: number;
+  preview: boolean;
+}
+
+export interface SnapboxConfigPutState {
   countdown: number;
   preview: boolean;
 }
@@ -49,6 +57,20 @@ export const useSnapboxStore = defineStore("snapbox", {
   actions: {
     getAllConfig(): void {
       SnapboxService.getConfig()
+        .then((result) => {
+          this.config = result.data as SnapboxConfigState;
+        })
+        .catch((error) => {
+          throw new Error(`API ${error}`);
+        });
+    },
+    saveConfig(): void {
+      const userStore = useUserStore();
+      const data = {
+        countdown: this.config.countdown,
+        preview: this.config.preview,
+      } as SnapboxConfigPutState
+      SnapboxService.putConfig(data, userStore.token)
         .then((result) => {
           this.config = result.data as SnapboxConfigState;
         })

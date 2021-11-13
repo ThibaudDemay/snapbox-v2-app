@@ -1,4 +1,5 @@
 import {
+  SnapboxConfigPutState,
   SnapboxConfigState,
   SnapboxPictureState,
 } from "@/store/modules/snapbox";
@@ -23,6 +24,11 @@ class SnapboxService {
 
   getConfig(): AxiosPromise<SnapboxConfigState> {
     return this.axios.get("/config");
+  }
+
+  putConfig(data: SnapboxConfigPutState, token: string): AxiosPromise<SnapboxConfigState> {
+    const options = { headers: { "Authorization": `Bearer ${token}` } };
+    return this.axios.put("/config", data, options);
   }
 
   getPictures(): AxiosPromise<Array<SnapboxPictureState>> {
